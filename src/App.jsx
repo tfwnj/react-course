@@ -1,32 +1,25 @@
 
+import { useState } from 'react';
 import './App.css';
 
-function Greeting(props){
-  return <h1>Hello, I am {props.name}. I am {props.age} years old.</h1>;
-}
-
-function Alternative({name, age}){
-  return <h1>Hi! I am {name}. I am {age} years old.</h1>
+function Greeting({name, age}){
+  return <h1>Hello, I am {name}, I am {age} years old.</h1>;
 }
 
 
 function App() {
-  const name = getName();
-  const age = 26;
+  const [showGreeting, setShowGreeting] = useState(false);
+
+  function toggleGreeting(){
+    setShowGreeting(!showGreeting);
+  }
 
   return <>
   <div>
-    <Alternative name={"Norm"} age={70}  />
-    <Greeting name={"Pedro"} age={24} />
-    <Greeting name={"Filipe"} age={26} />
-    <Greeting name={"Flower"} age={28} />
-    <Greeting name={"Vini"} age={19} />
-    
+    <button onClick={toggleGreeting}>Click Me</button>
+    {showGreeting && <Greeting name={"Filipe"} age={26} />}
   </div>
   </>;
 }
 
-function getName(){
-  return "Paulo";
-}
 export default App;
