@@ -1,28 +1,34 @@
 import { useState } from "react";
+import {useForm} from "react-hook-form";
 
 export default function SignupForm(){
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const {
+        register, 
+        handleSubmit,
+        formState: {errors},
+    } = useForm();
 
-    function handleSubmit(event){
-        event.preventDefault();
-        alert(`Submitted with email: ${email} and password: ${password}`);
+    function onSubmit(data){
+        alert(`Submitted with email: ${data.email} and password: ${data.password}`);
     }
 
     return (
         <div style={{maxWidth: 400, margin: "2rem auto"}}>
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{marginBottom: "1rem"}}>
                     <label>
                         Email
                         <input 
                             type="email" 
                             placeholder="you@example.com" 
-                            onChange={(e) => setEmail(e.target.value)} 
+                            {...register("email", {required: "Email is required"})}
                         />
                     </label>
+                    {errors.email && (
+                        <p style={{color: "crimson"}}>{errors.email.message}</p>
+                    )}
                 </div>
                 <div style={{marginBottom: "1rem"}}>
                     <label>
@@ -30,9 +36,22 @@ export default function SignupForm(){
                         <input 
                             type="password" 
                             placeholder="********" 
-                            onChange={(e) => setPassword(e.target.value)}
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                    value: 8,
+                                    message: "Password must be at least 8 chars",
+                                },
+                                maxLength: {
+                                    value: 20,
+                                    message: "Password must be at most 20 chars",
+                                }
+                            })}
                         />
                     </label>
+                    {errors.password && (
+                        <p style={{color: "crimson"}}>{errors.password.message}</p>
+                    )}
                 </div>
 
                 <button>Crate account</button>
