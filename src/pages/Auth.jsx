@@ -9,7 +9,7 @@ export default function Auth(){
 
     const navigate = useNavigate();
 
-    const {signUp, login} = useAuth;
+    const {signUp, login} = useAuth();
     
     const {register, handleSubmit, formState: {errors},} = useForm();
 
